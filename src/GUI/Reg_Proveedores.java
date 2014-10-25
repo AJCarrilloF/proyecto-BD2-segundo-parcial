@@ -144,6 +144,15 @@ public class Reg_Proveedores extends javax.swing.JFrame {
         }
         else
         {
+            String val="";
+            String cor=Utiles.encomillar(txfCorreo.getText());
+            String prov=Utiles.encomillar(txfProveedor.getText());
+            String tel=Utiles.encomillar(txfTelefono.getText());
+            String con=Utiles.encomillar(txfContacto.getText());
+            int id=Utiles.getLast("proveedores", "Id_proveedor");
+            val=id+","+prov+","+tel+","+cor+","+con;
+            val=Utiles.emparentizar(val);
+            Utiles.insertAll("proveedores",val);
             
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed

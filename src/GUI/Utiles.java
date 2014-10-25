@@ -5,7 +5,16 @@
  */
 package GUI;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -95,6 +104,50 @@ public class Utiles {
 
     static void errCombo(String categoria) {
         JOptionPane.showMessageDialog(null, "Debe seleccionar una "+categoria,"ERROR",0);
+    }
+
+    static String encomillar(String text) {
+        return "'"+text+"'";
+    }
+    
+    static String emparentizar(String text)
+    {
+        return "("+text+")";
+    }
+
+    static void insertAll(String tabla, String val) {
+        try {
+            
+            String cons = "insert into "+tabla+" values "+val;
+            Connection con = ConnOracle.GetConnection();
+            Statement st = con.createStatement();
+            st.executeUpdate(cons);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Utiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    static int getLast(String tabla,String column)
+    {
+        try {
+            int res;
+            CallableStatement chk;
+            String call="{? = call GETLAST(?,?)}";
+            chk =ConnOracle.GetConnection().prepareCall(call);
+            chk.registerOutParameter(1, OracleTypes.NUMBER);
+            chk.setString(2, tabla);
+            chk.setString(3, column);
+            
+            
+            chk.execute();
+            res=chk.getInt(1);
+            
+            return res;
+        } catch (SQLException ex) {
+            Logger.getLogger(Utiles.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
     }
     
     
