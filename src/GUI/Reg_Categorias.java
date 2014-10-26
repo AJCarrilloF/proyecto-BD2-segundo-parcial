@@ -63,6 +63,9 @@ public class Reg_Categorias extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setLayout(new java.awt.GridLayout(2, 0));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -79,6 +82,7 @@ public class Reg_Categorias extends javax.swing.JFrame {
 
         jPanel4.add(jPanel3);
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jLabel3.setText("Descripción");
@@ -111,6 +115,16 @@ public class Reg_Categorias extends javax.swing.JFrame {
         if(txfNombre.getText().isEmpty())
         {
             Utiles.errCmpsVacios("Nombre");
+        }
+        else
+        {
+            String val="";
+            String nom=Utiles.encomillar(txfNombre.getText());
+            String desc=Utiles.encomillar(txaDescripcion.getText());
+            int id=Utiles.getLast("categorias", "Id_categoria");
+            val=id+","+nom+","+desc;
+            val=Utiles.emparentizar(val);
+            Utiles.insertAll("categorias",val);
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
 

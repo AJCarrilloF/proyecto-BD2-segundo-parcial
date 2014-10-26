@@ -123,6 +123,18 @@ public class Reg_Empleados extends javax.swing.JFrame {
         {
             Utiles.errCmpsVacios("");
         }
+        else
+        {
+            String val="";
+            String cor=Utiles.encomillar(txfCorreo.getText());
+            String nom=Utiles.encomillar(txfNombre.getText());
+            String tel=Utiles.encomillar(txfTelefono.getText());
+            
+            int id=Utiles.getLast("empleados", "Id_empleado");
+            val=id+","+nom+","+tel+","+cor;
+            val=Utiles.emparentizar(val);
+            Utiles.insertAll("empleados",val);
+        }
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     /**

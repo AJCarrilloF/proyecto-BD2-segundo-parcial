@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -122,6 +124,7 @@ public class Utiles {
             Connection con = ConnOracle.GetConnection();
             Statement st = con.createStatement();
             st.executeUpdate(cons);
+            con.close();
             
         } catch (SQLException ex) {
             Logger.getLogger(Utiles.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,7 +137,8 @@ public class Utiles {
             int res;
             CallableStatement chk;
             String call="{? = call GETLAST(?,?)}";
-            chk =ConnOracle.GetConnection().prepareCall(call);
+            Connection con = ConnOracle.GetConnection();
+            chk =con.prepareCall(call);
             chk.registerOutParameter(1, OracleTypes.NUMBER);
             chk.setString(2, tabla);
             chk.setString(3, column);
@@ -142,14 +146,50 @@ public class Utiles {
             
             chk.execute();
             res=chk.getInt(1);
-            
+            con.close();
             return res;
         } catch (SQLException ex) {
             Logger.getLogger(Utiles.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
+
+    static boolean idExist(String tabla, String column, int id) {
+        try {
+            String cons = "select * from "+tabla+" "
+            + "where "+column+" = "+id;
+            Connection con = ConnOracle.GetConnection();
+            PreparedStatement st = con.prepareStatement(cons);
+            ResultSet res = st.executeQuery();
+            
+            return res.next();
+            
+        } catch (SQLException ex) {
+            
+            Logger.getLogger(Utiles.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
     
     
+    static void setEnableSons(JPanel panel,boolean val)
+    {
+        for(int i =0;i<panel.getComponentCount();i++)
+        {
+            if(panel.getComponent(i).getClass().toString()=="JPanel")
+            {
+                setEnableSons((JPanel)panel.getComponent(i), val);
+            }
+            else
+            {
+                panel.getComponent(i).setEnabled(val);
+            }
+        }
+    }
+    
+    public static void addJLabel(JLabel chng,String add)
+    {
+        chng.setText(chng.getText()+add);
+    }
     
 }

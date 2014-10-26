@@ -102,4 +102,39 @@ public class ConnOracle {
         setServ(JOptionPane.showInputDialog("Introdusca nombre del servicio"));
         
     }
+
+    static Connection GetConnectionMat(String ip, String serv, String nom, String cont) {
+        Connection conexion=null;
+      
+        try
+        {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String servidor = "jdbc:oracle:thin:@"+ip+":1521:"+serv;
+            
+            System.out.println(servidor+nom+cont+serv);
+            conexion= DriverManager.getConnection(servidor,nom,cont);
+            
+        }
+        catch(ClassNotFoundException ex)
+        {
+            JOptionPane.showMessageDialog(null, ex, "Error1 en la Conexión con la BD "+ex.getMessage()+"\n", JOptionPane.ERROR_MESSAGE);
+            conexion=null;
+        }
+        catch(SQLException ex)
+        {
+            
+            JOptionPane.showMessageDialog(null, ex, "Error2 en la Conexión con la BD "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            
+                
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, ex, "Error3 en la Conexión con la BD "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            conexion=null;
+        }
+        finally
+        {
+            return conexion;
+        }
+    }
 }

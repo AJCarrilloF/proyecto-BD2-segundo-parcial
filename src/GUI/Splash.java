@@ -11,29 +11,36 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Angek
  */
-public class Splash extends javax.swing.JFrame {
+public class Splash extends javax.swing.JFrame implements Runnable{
 
     /**
      * Creates new form Splash
      */
+    Thread hilo;
     public Splash() {
         initComponents();
+        hilo=new Thread(this);
+        hilo.start();
+        
+        
     }
     private void checkSucursal()
     {
-        try {
+        try {//revisa si hay sucursales
             String cons="select * from sucursales";
             Connection con;
             con=ConnOracle.GetConnection();
             PreparedStatement st=con.prepareCall(cons);
             ResultSet res= st.executeQuery();
             if(res.next())
-            {
+            {//revisa las sucursales
                 cons="select * from servidores";
                 st=con.prepareCall(cons);
                 res=st.executeQuery();
@@ -56,11 +63,16 @@ public class Splash extends javax.swing.JFrame {
             }
             else//no encontro ninguna sucursal
             {
+                
                 FirstRun inicio;
                 inicio = new FirstRun();
                 inicio.setLocationRelativeTo(null);
+                this.setVisible(false);
                 inicio.setTipo(0);
                 inicio.setVisible(true);
+                
+                this.dispose();
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,18 +87,15 @@ public class Splash extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jLabel1 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
+        setUndecorated(true);
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/hardware.png"))); // NOI18N
+        getContentPane().add(jLabel1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -127,5 +136,20 @@ public class Splash extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        this.setLocationRelativeTo(null);
+        try {
+            
+            Thread.sleep(2000);
+            checkSucursal();
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }

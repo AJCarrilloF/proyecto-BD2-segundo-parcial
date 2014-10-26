@@ -5,6 +5,15 @@
  */
 package GUI;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Angek
@@ -14,8 +23,13 @@ public class Reg_Productos extends javax.swing.JFrame {
     /**
      * Creates new form Reg_Productos
      */
+    Vector catid,catnm;
     public Reg_Productos() {
         initComponents();
+        
+        catid=new Vector(5);
+        catnm=new Vector(5);
+        initCmbx();
     }
 
     /**
@@ -33,6 +47,8 @@ public class Reg_Productos extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txfNombre = new javax.swing.JTextField();
@@ -42,11 +58,13 @@ public class Reg_Productos extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txfProveedor = new javax.swing.JTextField();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        cmbCategoria = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaDescripcion = new javax.swing.JTextArea();
-        cmbCategoria = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,10 +93,13 @@ public class Reg_Productos extends javax.swing.JFrame {
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT);
-        flowLayout1.setAlignOnBaseline(true);
-        jPanel3.setLayout(flowLayout1);
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
 
+        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING));
+
+        jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel4.setLayout(new java.awt.GridLayout(2, 0));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -88,8 +109,9 @@ public class Reg_Productos extends javax.swing.JFrame {
         txfNombre.setColumns(10);
         jPanel4.add(txfNombre);
 
-        jPanel3.add(jPanel4);
+        jPanel9.add(jPanel4);
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel5.setLayout(new java.awt.GridLayout(2, 0));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -99,8 +121,9 @@ public class Reg_Productos extends javax.swing.JFrame {
         txfPreio.setColumns(10);
         jPanel5.add(txfPreio);
 
-        jPanel3.add(jPanel5);
+        jPanel9.add(jPanel5);
 
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel7.setLayout(new java.awt.GridLayout(2, 0));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -108,10 +131,28 @@ public class Reg_Productos extends javax.swing.JFrame {
         jPanel7.add(jLabel5);
 
         txfProveedor.setColumns(10);
+        txfProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfProveedorActionPerformed(evt);
+            }
+        });
         jPanel7.add(txfProveedor);
 
-        jPanel3.add(jPanel7);
+        jPanel9.add(jPanel7);
 
+        jPanel10.add(jPanel9);
+
+        jPanel3.add(jPanel10);
+
+        jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING));
+
+        jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 60, 5));
+
+        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Categoría" }));
+        jPanel8.add(cmbCategoria);
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel6.setLayout(new java.awt.BorderLayout());
 
         jLabel4.setText("Descripcion");
@@ -120,13 +161,16 @@ public class Reg_Productos extends javax.swing.JFrame {
         txaDescripcion.setColumns(20);
         txaDescripcion.setRows(5);
         jScrollPane1.setViewportView(txaDescripcion);
+        txaDescripcion.getAccessibleContext().setAccessibleName("");
+        txaDescripcion.getAccessibleContext().setAccessibleDescription("");
 
         jPanel6.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jPanel3.add(jPanel6);
+        jPanel8.add(jPanel6);
 
-        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Categoría" }));
-        jPanel3.add(cmbCategoria);
+        jPanel11.add(jPanel8);
+
+        jPanel3.add(jPanel11);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -153,7 +197,9 @@ public class Reg_Productos extends javax.swing.JFrame {
                 precio = Float.parseFloat(txfPreio.getText());
                 if(cmbCategoria.getSelectedIndex()!=0)
                 {
-                    categoria=cmbCategoria.getSelectedIndex();
+                    categoria=cmbCategoria.getSelectedIndex()-1;
+                    JOptionPane.showMessageDialog(rootPane, catnm.elementAt(categoria)
+                            +"\n"+catid.elementAt(categoria));
                     //registro
                 }
                 else
@@ -171,6 +217,22 @@ public class Reg_Productos extends javax.swing.JFrame {
                     
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txfProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfProveedorActionPerformed
+        if(Utiles.chckNumber(txfProveedor.getText(),Utiles.TO_INTEGER))
+        {
+            int id = Integer.parseInt(txfProveedor.getText());
+            if(Utiles.idExist("proveedores","id_proveedor",id))
+            {
+                JOptionPane.showMessageDialog(rootPane, "Existe");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane, "No Existe");
+            }
+        }
+                
+    }//GEN-LAST:event_txfProveedorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,16 +279,37 @@ public class Reg_Productos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txaDescripcion;
     private javax.swing.JTextField txfNombre;
     private javax.swing.JTextField txfPreio;
     private javax.swing.JTextField txfProveedor;
     // End of variables declaration//GEN-END:variables
+
+    private void initCmbx() {
+        try {
+            String cons = "select * from categorias";
+            Connection con = ConnOracle.GetConnection();
+            PreparedStatement st = con.prepareStatement(cons);
+            ResultSet res = st.executeQuery();
+            while(res.next())
+            {
+                catid.add(res.getInt(1));
+                catnm.add(res.getString(2));
+                cmbCategoria.addItem(res.getString(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Reg_Productos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

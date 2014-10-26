@@ -35,6 +35,7 @@ public class Reg_Proveedores extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txfProveedor = new javax.swing.JTextField();
@@ -44,6 +45,7 @@ public class Reg_Proveedores extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txfCorreo = new javax.swing.JTextField();
+        jPanel9 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txfContacto = new javax.swing.JTextField();
@@ -75,7 +77,7 @@ public class Reg_Proveedores extends javax.swing.JFrame {
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        jPanel4.setLayout(new java.awt.GridLayout(2, 0));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(new java.awt.GridLayout(2, 0));
@@ -87,7 +89,7 @@ public class Reg_Proveedores extends javax.swing.JFrame {
         txfProveedor.setColumns(30);
         jPanel2.add(txfProveedor);
 
-        jPanel4.add(jPanel2);
+        jPanel8.add(jPanel2);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel6.setLayout(new java.awt.GridLayout(2, 0));
@@ -97,7 +99,7 @@ public class Reg_Proveedores extends javax.swing.JFrame {
         jPanel6.add(jLabel4);
         jPanel6.add(txfTelefono);
 
-        jPanel4.add(jPanel6);
+        jPanel8.add(jPanel6);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel5.setLayout(new java.awt.GridLayout(2, 0));
@@ -109,7 +111,9 @@ public class Reg_Proveedores extends javax.swing.JFrame {
         txfCorreo.setColumns(30);
         jPanel5.add(txfCorreo);
 
-        jPanel4.add(jPanel5);
+        jPanel8.add(jPanel5);
+
+        jPanel4.add(jPanel8);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel7.setLayout(new java.awt.GridLayout(2, 0));
@@ -121,7 +125,9 @@ public class Reg_Proveedores extends javax.swing.JFrame {
         txfContacto.setColumns(30);
         jPanel7.add(txfContacto);
 
-        jPanel4.add(jPanel7);
+        jPanel9.add(jPanel7);
+
+        jPanel4.add(jPanel9);
 
         getContentPane().add(jPanel4, java.awt.BorderLayout.CENTER);
 
@@ -208,6 +214,8 @@ public class Reg_Proveedores extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField txfContacto;
     private javax.swing.JTextField txfCorreo;
     private javax.swing.JTextField txfProveedor;

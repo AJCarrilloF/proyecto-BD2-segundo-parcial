@@ -16,6 +16,26 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     
+    private int tipo;
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+        switch(tipo)
+            
+        {
+            case 0://usuario
+                Utiles.setEnableSons(pnlMat, false);
+                Utiles.setEnableSons(pnlAdmin, false);
+                break;
+            case 1:
+                Utiles.setEnableSons(pnlMat, false);
+        }
+    }
+    
     public Menu() {
         
         initComponents();
@@ -32,24 +52,28 @@ public class Menu extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        pnlUsuario = new javax.swing.JPanel();
         btnVentas = new javax.swing.JButton();
+        pnlAdmin = new javax.swing.JPanel();
+        btnEmpleados = new javax.swing.JButton();
+        btnBalance = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        pnlMat = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
+        jLabel1.setText("MenuPrincipal");
+        jPanel1.add(jLabel1);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
         btnVentas.setText("Ventas");
         btnVentas.addActionListener(new java.awt.event.ActionListener() {
@@ -58,28 +82,46 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(btnVentas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(42, 42, 42))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        javax.swing.GroupLayout pnlUsuarioLayout = new javax.swing.GroupLayout(pnlUsuario);
+        pnlUsuario.setLayout(pnlUsuarioLayout);
+        pnlUsuarioLayout.setHorizontalGroup(
+            pnlUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 391, Short.MAX_VALUE)
+            .addGroup(pnlUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlUsuarioLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(btnVentas)
-                    .addComponent(jButton1))
-                .addContainerGap(102, Short.MAX_VALUE))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+        pnlUsuarioLayout.setVerticalGroup(
+            pnlUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 44, Short.MAX_VALUE)
+            .addGroup(pnlUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlUsuarioLayout.createSequentialGroup()
+                    .addGap(0, 10, Short.MAX_VALUE)
+                    .addComponent(btnVentas)
+                    .addGap(0, 11, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Usuario", pnlUsuario);
+
+        btnEmpleados.setText("Agregar Empleado");
+        pnlAdmin.add(btnEmpleados);
+
+        btnBalance.setText("Reporte");
+        pnlAdmin.add(btnBalance);
+
+        jButton1.setText("Eliminar Empleado");
+        pnlAdmin.add(jButton1);
+
+        jTabbedPane1.addTab("Administrador", pnlAdmin);
+
+        jButton2.setText("Abrir Configuraión Inicial");
+        pnlMat.add(jButton2);
+
+        jTabbedPane1.addTab("Matriz", pnlMat);
+
+        jPanel2.add(jTabbedPane1);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -126,9 +168,17 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBalance;
+    private javax.swing.JButton btnEmpleados;
     private javax.swing.JButton btnVentas;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel pnlAdmin;
+    private javax.swing.JPanel pnlMat;
+    private javax.swing.JPanel pnlUsuario;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,17 @@
 
 package GUI;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Angek
@@ -13,17 +24,29 @@ package GUI;
 public class FirstRun extends javax.swing.JFrame {
     private int tipo;
 
+    Vector loc;
+    Vector Suc;
+    Vector nmSuc;
+    Vector idSuc;
+    Menu menu;
     public int getTipo() {
         return tipo;
     }
 
     public void setTipo(int tipo) {
         this.tipo = tipo;
+        if(tipo==0)
+        {
+            JOptionPane.showMessageDialog(null, "No se encontraron sucursales.\nPreparando primer inicio.");
+        }
     }
+    
     
     /** Creates new form FirstRun */
     public FirstRun() {
         initComponents();
+        idSuc=new Vector();
+        nmSuc=new Vector();
     }
 
     /** This method is called from within the constructor to
@@ -35,34 +58,62 @@ public class FirstRun extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel10 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnInitConf = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        lblNomSuc = new javax.swing.JLabel();
+        lblIPSuc = new javax.swing.JLabel();
+        lblLocSuc = new javax.swing.JLabel();
+        lblIPMat = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        cmbDesSucursal = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        btnAddLoc = new javax.swing.JButton();
+        jPanel12 = new javax.swing.JPanel();
+        btnSucCancelar = new javax.swing.JButton();
+        btnSucConfirmar = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txfNombreSuc = new javax.swing.JTextField();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        txfIPSuc = new javax.swing.JTextField();
+        cmbLoc = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnConfMat = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-
-        jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
-
-        jLabel3.setText("jLabel3");
-        jPanel10.add(jLabel3);
-
-        jTextField1.setText("jTextField1");
-        jPanel10.add(jTextField1);
+        jPanel17 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        txfIPMat = new javax.swing.JTextField();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        txfServMat = new javax.swing.JTextField();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        txfNomMat = new javax.swing.JTextField();
+        jPanel20 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        txfContMat = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -72,38 +123,129 @@ public class FirstRun extends javax.swing.JFrame {
 
         jPanel4.add(jPanel7, java.awt.BorderLayout.PAGE_START);
 
-        jButton2.setText("Iniciar");
-        jPanel8.add(jButton2);
+        btnInitConf.setText("Iniciar");
+        btnInitConf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInitConfActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnInitConf);
 
         jPanel4.add(jPanel8, java.awt.BorderLayout.PAGE_END);
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 195, Short.MAX_VALUE)
-        );
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel9.setLayout(new java.awt.GridLayout(2, 0));
+
+        jPanel16.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.Y_AXIS));
+
+        lblNomSuc.setText("Nombre de la Sucursal: ");
+        jPanel16.add(lblNomSuc);
+
+        lblIPSuc.setText("Dirección IP de la Sucursal: ");
+        jPanel16.add(lblIPSuc);
+
+        lblLocSuc.setText("Locación de la Sucursal: ");
+        jPanel16.add(lblLocSuc);
+
+        lblIPMat.setText("Dirección de la Matriz: ");
+        jPanel16.add(lblIPMat);
+
+        jPanel9.add(jPanel16);
+
+        jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        cmbDesSucursal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sucursales Disponibles" }));
+        cmbDesSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDesSucursalActionPerformed(evt);
+            }
+        });
+        jPanel15.add(cmbDesSucursal);
+
+        jPanel9.add(jPanel15);
 
         jPanel4.add(jPanel9, java.awt.BorderLayout.CENTER);
 
         jTabbedPane1.addTab("Configuración Inicial", jPanel4);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
+        jLabel4.setText("Agregar Sucursal");
+
+        btnAddLoc.setText("Agregar Locación");
+        btnAddLoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddLocActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAddLoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(134, 134, 134))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 272, Short.MAX_VALUE)
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(2, 2, 2))
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAddLoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(7, 7, 7))
         );
 
-        jTabbedPane1.addTab("Agregar Locaciones", jPanel5);
+        jPanel5.add(jPanel11, java.awt.BorderLayout.PAGE_START);
+
+        btnSucCancelar.setText("Cancelar");
+        jPanel12.add(btnSucCancelar);
+
+        btnSucConfirmar.setText("Confirmar");
+        btnSucConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSucConfirmarActionPerformed(evt);
+            }
+        });
+        jPanel12.add(btnSucConfirmar);
+
+        jPanel5.add(jPanel12, java.awt.BorderLayout.PAGE_END);
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel3.setText("Nombre de la Sucursal");
+        jPanel10.add(jLabel3);
+        jPanel10.add(txfNombreSuc);
+
+        jPanel13.add(jPanel10);
+
+        jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel5.setText("Dirección IP");
+        jPanel14.add(jLabel5);
+
+        txfIPSuc.setColumns(10);
+        jPanel14.add(txfIPSuc);
+
+        jPanel13.add(jPanel14);
+
+        cmbLoc.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Locación" }));
+        jPanel13.add(cmbLoc);
+
+        jPanel5.add(jPanel13, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane1.addTab("Agregar Sucursal", jPanel5);
 
         jPanel6.setLayout(new java.awt.BorderLayout());
 
@@ -112,37 +254,55 @@ public class FirstRun extends javax.swing.JFrame {
 
         jPanel6.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setText("jButton1");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(jButton1)
-                .addContainerGap(165, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(33, 33, 33))
-        );
+        btnConfMat.setText("Confirmar");
+        btnConfMat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfMatActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnConfMat);
 
         jPanel6.add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 148, Short.MAX_VALUE)
-        );
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jPanel17.setLayout(new javax.swing.BoxLayout(jPanel17, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel10.setText("Direccion IP");
+        jPanel17.add(jLabel10);
+
+        txfIPMat.setColumns(8);
+        jPanel17.add(txfIPMat);
+
+        jPanel3.add(jPanel17);
+
+        jPanel18.setLayout(new javax.swing.BoxLayout(jPanel18, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel11.setText("Servicio");
+        jPanel18.add(jLabel11);
+
+        txfServMat.setColumns(8);
+        jPanel18.add(txfServMat);
+
+        jPanel3.add(jPanel18);
+
+        jPanel19.setLayout(new javax.swing.BoxLayout(jPanel19, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel12.setText("Nombre de usuario");
+        jPanel19.add(jLabel12);
+        jPanel19.add(txfNomMat);
+
+        jPanel3.add(jPanel19);
+
+        jPanel20.setLayout(new javax.swing.BoxLayout(jPanel20, javax.swing.BoxLayout.Y_AXIS));
+
+        jLabel13.setText("Contraseña");
+        jPanel20.add(jLabel13);
+
+        txfContMat.setColumns(8);
+        jPanel20.add(txfContMat);
+
+        jPanel3.add(jPanel20);
 
         jPanel6.add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -153,6 +313,141 @@ public class FirstRun extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void btnAddLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLocActionPerformed
+        String loc="";
+        do
+        {
+            loc=JOptionPane.showInputDialog("Ingrese el nombre de la locación.");
+        }
+        while(loc.isEmpty());
+        String val="";
+        String nom=Utiles.encomillar(loc);
+
+        int id=Utiles.getLast("locaciones", "Id_locacion");
+        val=id+","+nom;
+        val=Utiles.emparentizar(val);
+        Utiles.insertAll("locaciones",val);
+        
+    }//GEN-LAST:event_btnAddLocActionPerformed
+
+    private void btnSucConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSucConfirmarActionPerformed
+
+        String val="";
+        if(txfNombreSuc.getText().isEmpty()
+                ||txfIPSuc.getText().isEmpty())
+        {
+            Utiles.errCmpsVacios("Nombre,IP");
+        }
+        else
+        {
+            String nom=txfNombreSuc.getText();
+            String ip = txfIPSuc.getText();
+            if(cmbLoc.getSelectedIndex()!=1)
+            {
+                int sel=cmbLoc.getSelectedIndex()-1;
+                int locId=Integer.parseInt(loc.get(sel).toString());
+                Utiles.idExist("Locaciones", "ID_LOCACION",locId );
+                int id=Utiles.getLast("sucursales", "Id_sucursal");
+                val=id+","+locId+","+nom;
+                val=Utiles.emparentizar(val);
+                Utiles.insertAll("sucursales",val);
+                val=id+","+ip;
+                val=Utiles.emparentizar(val);
+                Utiles.insertAll("servidores",val);
+                
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Seleccione una locación.");
+            }
+        }
+    }//GEN-LAST:event_btnSucConfirmarActionPerformed
+
+    private void btnConfMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfMatActionPerformed
+        if(txfServMat.getText().isEmpty()||
+                txfIPMat.getText().isEmpty()||
+                txfNomMat.getText().isEmpty()||
+                txfContMat.getText().isEmpty())
+        {
+            
+            
+            Utiles.errCmpsVacios("IP,Servicio,Usuario,Contraseña");
+            
+        }
+        else
+        {
+            try {
+                String ip = txfIPMat.getText();
+                String serv=txfServMat.getText();
+                String nom=txfNomMat.getText();
+                String cont=txfContMat.getText();
+                String cons="select * from servidores where local= 0";
+                Connection con=ConnOracle.GetConnectionMat(ip,serv,nom,cont);
+                Statement st = con.createStatement();
+                ResultSet res;
+                res=st.executeQuery(cons);
+                cons="select sucursal,id_sucursal from sucursales where id_sucursal= ";
+                lblIPMat.setText(lblIPMat.getText()+ip);
+                String libres="";
+                if(res.next())
+                do{
+                    cmbDesSucursal.removeAllItems();
+                    cmbDesSucursal.addItem("Sucursales Disponibles");
+                    cons+=res.getInt(1);
+                    idSuc.addElement(res.getInt(1));
+                    
+                    ResultSet res2=st.executeQuery(cons);
+                    if(res2.next())
+                    {
+                        libres+=res2.getString(1)+" ";
+                        cmbDesSucursal.addItem(res2.getString(1));
+                    }
+                }while(res.next());
+                JOptionPane.showMessageDialog(null, "libres "+libres);
+            } catch (SQLException ex) {
+                Logger.getLogger(FirstRun.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnConfMatActionPerformed
+
+    private void btnInitConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInitConfActionPerformed
+        
+    }//GEN-LAST:event_btnInitConfActionPerformed
+
+    private void cmbDesSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDesSucursalActionPerformed
+        
+        int selected=cmbDesSucursal.getSelectedIndex()-1;
+        if(selected>=0)
+        {
+            Utiles.addJLabel(lblNomSuc, " "+nmSuc.get(selected));
+        }
+    }//GEN-LAST:event_cmbDesSucursalActionPerformed
+    private void initLocaciones()
+    {
+        if(cmbLoc.getItemCount()>1)
+        {
+            cmbLoc.removeAllItems();
+            cmbLoc.addItem("Locacion");
+        }
+        try {
+            String cons = "select * from Locaciones";
+            Connection con = ConnOracle.GetConnection();
+            PreparedStatement st = con.prepareStatement(cons);
+            ResultSet res = st.executeQuery();
+            while(res.next())
+            {
+                loc.add(res.getInt(1));
+
+                cmbLoc.addItem(res.getString(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Reg_Productos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -189,14 +484,35 @@ public class FirstRun extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAddLoc;
+    private javax.swing.JButton btnConfMat;
+    private javax.swing.JButton btnInitConf;
+    private javax.swing.JButton btnSucCancelar;
+    private javax.swing.JButton btnSucConfirmar;
+    private javax.swing.JComboBox cmbDesSucursal;
+    private javax.swing.JComboBox cmbLoc;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -205,7 +521,16 @@ public class FirstRun extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblIPMat;
+    private javax.swing.JLabel lblIPSuc;
+    private javax.swing.JLabel lblLocSuc;
+    private javax.swing.JLabel lblNomSuc;
+    private javax.swing.JTextField txfContMat;
+    private javax.swing.JTextField txfIPMat;
+    private javax.swing.JTextField txfIPSuc;
+    private javax.swing.JTextField txfNomMat;
+    private javax.swing.JTextField txfNombreSuc;
+    private javax.swing.JTextField txfServMat;
     // End of variables declaration//GEN-END:variables
 
 }
